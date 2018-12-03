@@ -1,5 +1,6 @@
 import { each } from '../lib/util'
 
+
 function formatStyle(style) {
   let ret = {}
 

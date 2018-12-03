@@ -19,6 +19,7 @@ export default class DevTools extends Emitter {
   constructor($container) {
     super()
 
+    // require returns a raw css string
     this._style = evalCss(require('./DevTools.scss'))
 
     this.$container = $container
@@ -60,6 +61,7 @@ export default class DevTools extends Emitter {
   add(tool) {
     if (!(tool instanceof Tool)) {
       let { init, show, hide, destroy } = new Tool()
+      // associate tool's methods if it's not a Tool instance 
       defaults(tool, { init, show, hide, destroy })
     }
 

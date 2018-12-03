@@ -39,6 +39,7 @@ export default class Console extends Tool {
     let origConsole = (this._origConsole = {}),
       winConsole = window.console
 
+    //:bm, replace console methods.
     CONSOLE_METHOD.forEach(name => {
       let origin = (origConsole[name] = noop)
       if (winConsole[name]) {

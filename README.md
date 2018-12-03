@@ -1,3 +1,136 @@
+
+# notes
+
+annotation:
+```
+:n, notes
+
+```
+
+
+* read it buiding script first, at least give it peek, this provides some insight how this project is constructed.
+* this lib make plenty use of EventEmitter pattern 
+* `Network`, I'm pretty insterest in this section, wondering how network 
+
+
+
+```
+src
+├── Console
+│   ├── Console.js                          // entry
+│   ├── Log.js                              // 模拟了chrome dev tools console log不同数据类型的能力, table, json 格式的支持
+│   ├── Logger.js                           // 定义了如何输出log信息, 虽然没有完全弄清Logger和Log的区别, 但是大致知道怎么创建一个类似于chrome dev tools的log页面了
+│   ├── cmdList.json                        // jquery, loadash 库命令
+│   ├── libraries.json                      //  jquery, loadash 资源路径
+│   └── stringify.js                        // 递归output string out of object的能力
+├── DevTools                                // 整个DevTools页面, 包含其他Tools(Console, Elements, EntryBtn, Info...etc)
+│   ├── DevTools.js
+│   ├── NavBar.js
+│   └── Tool.js
+├── Elements                                // 用于展示目标元素样式. 
+│   ├── CssStore.js                         // collect css rules that match a specific element, 
+│   ├── Elements.js                         // Elements, 主要是用于展示元素样式
+│   ├── Highlight.js
+│   ├── Select.js
+│   └── defComputedStyle.json
+├── EntryBtn
+│   ├── EntryBtn.js                         // eruda 的齿轮按钮, 定义了draggable行为, 
+├── Info                                    // 信息面板
+│   ├── Info.js
+│   ├── defInfo.js
+├── Network
+│   ├── FetchRequest.js                     // 和 XhrRequest 对应的 fetch 函数的 counterpart, 收集network的行为
+│   ├── Network.js                          // Network 面板, 看了下代码eruda收集网络请求是在xhr和fetch方法分别作了封装, 在请求周期特定位置插入了自定义的行为去收集网络请求的结果
+│   ├── XhrRequest.js                       // XhrRequest, 对不同阶段的xhr处理的封装
+│   └── util.js                             
+├── Resources                               // Resource面板
+│   ├── Resources.js
+├── Settings
+│   ├── Settings.js                         // 就是一个key value store 用了localStorage, 然后提供了一个UI修改
+├── Snippets
+│   ├── Snippets.js
+│   ├── defSnippets.js
+├── Sources
+│   ├── Sources.js
+├── index.js
+├── lib
+│   ├── JsonViewer.js
+│   ├── Storage.js
+│   ├── config.js
+│   ├── emitter.js
+│   ├── extraUtil.js
+│   ├── getAbstract.js
+│   ├── highlight.js
+│   ├── logger.js
+│   ├── stringify.js
+│   ├── stringifyUtil.js
+│   ├── stringifyWorker.js
+│   └── util.js                             // 各种utils工具类, 写法有些古老
+└── style
+```
+
+
+
+* `evalCss`: this function is used to load css style into page.
+* utils:
+    * `Logger`, the implementation is much simpler than i thought, just a console with a logger level. lower logger level than configed simply got skipped when logged to console.
+
+
+
+## third party libs
+* draggabilly, 通用化drag的操作封装
+
+
+
+##
+
+```
+export function lenToUtf8Bytes(str) {
+  let m = encodeURIComponent(str).match(/%[89ABab]/g)
+
+  return str.length + (m ? m.length : 0)
+}
+
+
+// evaljs, todo: what use of these parenthesis for eval call 
+let evalJs = jsInput => {
+  let ret
+
+  try {
+    ret = eval.call(window, `(${jsInput})`)
+  } catch (e) {
+    ret = eval.call(window, jsInput)
+  }
+
+  return ret
+}
+
+
+// Resource面板中用于keep sync with the resources(cookie, localStorage, img, ...etc)的核心代码
+// MutationObserver我记不清标准化了没有, 记得好像其他浏览器好像没有标准化这个东西
+this._observer = new MutationObserver(mutations => {
+    let needToRender = false
+    each(mutations, mutation => {
+    if (this._handleMutation(mutation)) needToRender = true
+    })
+    if (needToRender) this._render()
+})
+```
+
+## todos
+* `let entries = this._performance.getEntries()`
+* `MutationObserver`
+
+
+
+
+
+
+
+
+
+
+
 <a href="https://eruda.liriliri.io/" target="_blank">
     <img src="http://7xn2zy.com1.z0.glb.clouddn.com/github_eruda2.jpg">
 </a>

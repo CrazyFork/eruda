@@ -31,6 +31,7 @@ export default class Network extends Tool {
     this._container = container
     this._bindEvent()
     this._initCfg()
+    // :todo
     this.overrideXhr()
   }
   show() {
@@ -43,6 +44,7 @@ export default class Network extends Tool {
     this._render()
   }
   overrideXhr() {
+    // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/XMLHttpRequest
     let winXhrProto = window.XMLHttpRequest.prototype
 
     let origSend = (this._origSend = winXhrProto.send)

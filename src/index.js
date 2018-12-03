@@ -215,6 +215,7 @@ module.exports = {
     this._entryBtn.initCfg(settings)
     devTools.initCfg(settings)
   },
+  //todo: 
   _initTools(
     tool = [
       'console',

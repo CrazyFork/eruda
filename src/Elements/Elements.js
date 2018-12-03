@@ -146,6 +146,7 @@ export default class Elements extends Tool {
               return
           }
 
+          // a global store ? it should be
           let sources = container.get('sources')
 
           if (sources) {
